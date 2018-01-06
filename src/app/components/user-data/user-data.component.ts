@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../services/user/user.service';
+import { UserService } from '../../services/user/user.service';
 import { EmailValidator, Validators } from '@angular/forms';
-import { User } from '../components/models/user';
-
+import { User } from '../models/user';
+import { MatDialog } from '@angular/material';
+import { DialogContentComponent } from '../dialogContent/dialogContent.component';
 @Component({
   selector: 'app-user-data',
   templateUrl: './user-data.component.html',
@@ -11,8 +12,7 @@ import { User } from '../components/models/user';
 export class UserDataComponent implements OnInit {
   public user: User;
   public confirmPassword: string;
-  public status : string;
-  constructor(private _userService: UserService) { 
+  constructor(private _userService: UserService, private _dialog: MatDialog) { 
   }
 
   ngOnInit() {
@@ -26,12 +26,15 @@ export class UserDataComponent implements OnInit {
     this._userService.update(this.user).subscribe(
       response => {
         if(response.token){
-          console.log(this.user);
           this._userService.setIdentity(this.user);
           this._userService.setToken(response.token);
+          this.openDialog("Los datos se han modificado correctamente", "green", "done");
+        }else{
+          this.openDialog("No se han podido modificar los datos correcamente", "red", "error");
         }
       },
       error => {
+        this.openDialog("Error al modificar los datos", "red", "error");
         console.log(<any>error);
       }
     );
@@ -39,5 +42,11 @@ export class UserDataComponent implements OnInit {
     this.confirmPassword = '';
     userdataForm.reset({name : this.user.name, email: this.user.email, password: this.user.password,
       confirmPass: this.confirmPassword});
+  }
+
+  openDialog(message, color, icon) {
+    let dialogRef = this._dialog.open(DialogContentComponent, {
+      data: { status: message, color: color, icon: icon },
+    });
   }
 }

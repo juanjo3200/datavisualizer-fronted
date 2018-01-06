@@ -1,11 +1,7 @@
-<mat-toolbar color="primary">
-  <span class="title">Datavisualizer</span>
-</mat-toolbar>
-
 <mat-card>
   <mat-card-content>
 
-    <form class="example-container" #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)" accept-charset="UTF-8" role="form">
+    <form class="example-container" #userdataForm="ngForm" (ngSubmit)="onSubmit(userdataForm)" accept-charset="UTF-8" role="form">
       <h2 class="example-h2">Registro de usuario</h2>
       <mat-form-field>
         <input matInput class="form-control" name="name" placeholder="Nombre" type="text" #name="ngModel" [(ngModel)]="user.name"
@@ -16,7 +12,7 @@
         </mat-hint>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Email" type="email" name="email" #email="ngModel" [(ngModel)]="user.email" email required asyncEmailValidator>
+        <input matInput placeholder="Email" type="email" name="email" #email="ngModel" [(ngModel)]="user.email" email required asyncEmailValidator actualEmail=true>
         <mat-icon matSuffix>mail</mat-icon>
         <mat-hint *ngIf="email.errors?.asyncInvalid" align="end">
           <span style="color:red"> El email ya esta registrado </span>
@@ -24,17 +20,16 @@
       </mat-form-field>
       <mat-form-field>
         <input matInput type="password" placeholder="Contraseña" name="password" #password="ngModel" [(ngModel)]="user.password"
-          required validateEqual="confirmPass" reverse="true">
+           validateEqual="confirmPass" reverse="true">
         <mat-icon matSuffix>visibility</mat-icon>
       </mat-form-field>
       <mat-form-field>
         <input matInput placeholder="Repita la contraseña" name="confirmPass" type="password" #confirmPass="ngModel" [(ngModel)]="confirmPassword"
-          validateEqual="password" reverse="false" required>
+          validateEqual="password" reverse="false">
         <mat-icon matSuffix>visibility</mat-icon>
       </mat-form-field>
-      <button type='submit' class="app-button" mat-raised-button color="primary" [disabled]="!registerForm.form.valid">Registrarse</button>
+      <button type='submit' class="app-button" mat-raised-button color="primary" [disabled]="!userdataForm.form.valid">Modificar Datos</button>
     </form>
 
   </mat-card-content>
-  <button class="app-button" mat-raised-button color="primary" [routerLink]="['/login']">Volver al login</button>
 </mat-card>

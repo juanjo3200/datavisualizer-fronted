@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
-
+import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -8,7 +8,7 @@ import { UserService } from '../../services/user/user.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private _userService: UserService) { }
+  constructor(private _userService: UserService, private router: Router) { }
 
   ngOnInit() {
     console.log(this._userService.getIdentity());
@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
   }
   logout(){
     this._userService.logout();
+    this.router.navigate(['login']);
   }
 
 }

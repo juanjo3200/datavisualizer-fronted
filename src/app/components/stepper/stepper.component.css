@@ -1,0 +1,12 @@
+.example-filter {
+    width: 100%;
+}
+.mat-table {
+  overflow: auto;
+}
+
+mat-cell,
+.mat-header-cell {
+  overflow: visible;
+}
+

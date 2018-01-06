@@ -1,0 +1,71 @@
+<mat-horizontal-stepper  linear >
+<mat-step  #step completed="false">
+
+
+    <mat-form-field class="example-filter">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+    </mat-form-field>
+
+    <mat-table #table [dataSource]="dataSource">
+
+
+      <ng-container matColumnDef="nombre">
+        <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+        <mat-cell *matCellDef="let database"> {{database.nombre}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="descripcion">
+        <mat-header-cell *matHeaderCellDef> Descripcion </mat-header-cell>
+        <mat-cell *matCellDef="let database"> {{database.descripcion}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="campos">
+        <mat-header-cell *matHeaderCellDef> Campos </mat-header-cell>
+        <mat-cell *matCellDef="let database"> {{database.campos}} </mat-cell>
+      </ng-container>
+
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+
+
+    <div>
+      <button mat-raised-button color="primary" mat-button matStepperNext>Siguiente</button>
+
+    </div>
+
+  </mat-step>
+  <mat-step>
+
+    <ng-template matStepLabel>Fill out your address</ng-template>
+    <div>
+      <button mat-raised-button color="warn" mat-button matStepperPrevious>Atras</button>
+
+      <button mat-raised-button color="primary" mat-button matStepperNext>Siguiente</button>
+
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    You are now done.
+    <div>
+      <button mat-raised-button color="warn" mat-button matStepperPrevious>Atras</button>
+
+
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

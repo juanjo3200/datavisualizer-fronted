@@ -2,7 +2,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { EmailValidator, Validators } from '@angular/forms';
 import { User } from '../models/user';
 import { UserService } from '../../services/user/user.service';
-
+import { MatDialog } from '@angular/material';
+import { DialogContentComponent } from '../dialogContent/dialogContent.component';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -11,8 +12,7 @@ import { UserService } from '../../services/user/user.service';
 export class RegisterComponent implements OnInit {
   public user: User;
   public confirmPassword: String;
-  public status: String;
-  constructor(private _userService: UserService) { }
+  constructor(private _userService: UserService, private _dialog: MatDialog) { }
 
   ngOnInit() {
     this.user = new User( '', '', '', 'ROLE_USER');
@@ -22,11 +22,11 @@ export class RegisterComponent implements OnInit {
     this._userService.register(this.user).subscribe(
       response => {
         if(response.user){
-          this.status = 'success';
+          this.openDialog("La cuenta se ha creado correctamente", "green", "done");
           registerForm.reset();
           this.user = new User( '', '', '', 'ROLE_USER');
         }else{
-          this.status = 'error';
+          this.openDialog("Error al crear la cuenta", "red", "error");
         }
       },
       error => {
@@ -35,4 +35,9 @@ export class RegisterComponent implements OnInit {
     );
   }
 
+  openDialog(message, color, icon) {
+    let dialogRef = this._dialog.open(DialogContentComponent, {
+      data: { status: message, color: color , icon : icon},
+    });
+  }
 }

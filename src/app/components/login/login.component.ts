@@ -1,7 +1,9 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation} from '@angular/core';
 import { User } from '../models/user';
 import { UserService } from '../../services/user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MatDialog, MatDialogRef , MAT_DIALOG_DATA } from '@angular/material';
+import { DialogContentComponent } from '../dialogContent/dialogContent.component';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -9,19 +11,16 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   public user: User;
-  public status: String;
   public identity: User;
   public token : string;
   constructor(private _userService: UserService,
-              private router: Router) { }
+    private router: Router, private _dialog: MatDialog) { }
 
   ngOnInit() {
     this.user = new User( '', '', '', 'ROLE_USER');
-    this.status = '';
   }
 
   onSubmit(loginForm){
-    this.status = '';
     this._userService.login(this.user).subscribe(
       response => {
         if (response.user) {
@@ -44,7 +43,7 @@ export class LoginComponent implements OnInit {
         if(error._body){
           let body = JSON.parse(error._body);
           if(body.message){
-            this.status = body.message;
+            this.openDialog(body.message);
           }
         }else{
           console.log(<any>error);
@@ -52,4 +51,11 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+
+  openDialog(message) {
+    let dialogRef = this._dialog.open(DialogContentComponent, {
+      data: { status: message , color: "red", icon: "error"},
+    });
+  }
 }
+

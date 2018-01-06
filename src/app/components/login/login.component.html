@@ -1,33 +1,24 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-4 col-md-offset-4">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Login</h3>
-        </div>
-        <div class="panel-body">
-          <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" accept-charset="UTF-8" role="form">
-            <fieldset>
-              <div class="form-group">
-                <input class="form-control" placeholder="yourmail@example.com" type="email" name="email" #email="ngModel" [(ngModel)]="user.email"
-                  email required>
-              </div>
-              <div class="form-group">
-                <input class="form-control" placeholder="Contraseña" name="password" type="password" value="" #password="ngModel" [(ngModel)]="user.password"
-                  required>
-              </div>
-              <input class="btn btn-lg btn-success btn-block" type="submit" value="Login" [disabled]="!loginForm.form.valid">
-            </fieldset>
-          </form>
-          <div class="alert alert-danger" *ngIf="status !=''">
-            {{status}}
-          </div>
+<mat-toolbar color="primary">
+  <span class="title">Datavisualizer</span>
+</mat-toolbar>
 
-          <hr/>
-          <a [routerLink]="['/register']">Registrate</a>
-        </div>
+<mat-card>
+  <mat-card-content>
 
-      </div>
-    </div>
-  </div>
-</div>
+    <form class="example-container" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" accept-charset="UTF-8" role="form">
+      <h2 class="example-h2">Login</h2>
+      <mat-form-field>
+        <input matInput placeholder="Nombre" type="email" name="email" #email="ngModel" [(ngModel)]="user.email" email
+          required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Contraseña" name="password" type="password" value="" #password="ngModel" [(ngModel)]="user.password"
+          required>
+        <mat-icon matSuffix>visibility</mat-icon>
+      </mat-form-field>
+      <button type='submit' class="app-button" mat-raised-button color="primary" [disabled]="!loginForm.form.valid">Login</button>
+    </form>
+
+  </mat-card-content>
+    <button class="app-button" mat-raised-button color="primary" [routerLink]="['/register']">Registrate</button>
+</mat-card>
