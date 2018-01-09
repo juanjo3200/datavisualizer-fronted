@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, MatStepper, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
+import { DialogContentComponent } from '../dialogContent/dialogContent.component';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Database, Field, Visualization, Database_mock } from '../models/visualization';
 @Component({
   selector: 'app-stepper',
   templateUrl: './stepper.component.html',
@@ -10,7 +13,10 @@ export class StepperComponent implements OnInit {
   displayedColumns = ['nombre', 'descripcion', 'campos', 'select'];
   dataSource = new MatTableDataSource<Database>(Database_mock);
   selection = new SelectionModel<Database>(true, []);
-  @ViewChild('step') step;
+  visualization = new Visualization();
+
+  preprocesamientoForm: FormGroup;
+  algoritmoForm: FormGroup;
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -25,12 +31,42 @@ export class StepperComponent implements OnInit {
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
-  constructor() {
-
+  constructor(private _dialog: MatDialog, private fb: FormBuilder) {
+    this.createForm();
   }
 
   ngOnInit() {
-    console.log(this.step.completed);
+  }
+
+  createForm() {
+    this.preprocesamientoForm = this.fb.group({
+      itemRows: this.fb.array([])
+    });
+  }
+
+  initPreproRows() {
+    return this.fb.group({
+      database: '',
+      pivot: '',
+      join: '',
+    });
+  }
+  get itemRows(): FormArray {
+    return this.preprocesamientoForm.get('itemRows') as FormArray;
+  }
+  setPreprocess(arrayLength: number) {
+    const selectedFGs = new Array<FormGroup>();
+    for (let index = 0; index < arrayLength; index++) {
+      selectedFGs.push(this.initPreproRows());
+    }
+    const selectedFormArray = this.fb.array(selectedFGs);
+    this.preprocesamientoForm.setControl('itemRows', selectedFormArray);
+  }
+
+  clearPreproArray() {
+    const control = <FormArray>this.preprocesamientoForm.controls['itemRows'];
+
+    control.controls.splice(0);
   }
 
   applyFilter(filterValue: string) {
@@ -38,33 +74,27 @@ export class StepperComponent implements OnInit {
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-}
+
+  classFields(fields: Array<Field>) {
+    return fields.filter(field => field.tipo === 'Clase');
+  }
+
+  firstStepCheck(stepper: MatStepper) {
+    if (this.selection.selected.length > 0) {
+      this.clearPreproArray();
+      this.setPreprocess(this.selection.selected.length);
+      stepper.next();
+    } else {
+      this.openDialog("No has seleccionado ninguna base de datos");
+    }
+  }
 
 
-export interface Database {
-  nombre: string;
-  descripcion: string;
-  campos: Array<string>;
+
+  openDialog(message) {
+    let dialogRef = this._dialog.open(DialogContentComponent, {
+      data: { status: message, color: "red", icon: "error" },
+    });
+  }
 }
 
-const Database_mock: Database[] = [{
-  nombre: "ISOC",
-  descripcion: "Share of person tal Duis ipsum culpa cupidatat voluptate sunt exercitation est magna. Quis nostrud nisi laboris nostrud proident veniam magna consequat esse. Nulla sunt consequat minim incididunt. Minim laborum velit voluptate duis ea mollit adipisicing laboris eiusmod nisi ad consectetur ea officia. Incididunt nostrud cillum reprehenderit aliqua in ut occaecat fugiat magna tempor elit voluptate deserunt nisi. Cupidatat incididunt fugiat dolore nisi laboris ipsum amet. Lorem tempor nulla proident amet nisi fugiat quis proident magna reprehenderit id eiusmod est molli",
-  campos: ["unit", "year", "2011"]
-},
-{
-  nombre: "ISOC1",
-  descripcion: "Share of person tal Duis ipsum culpa cupidatat voluptate sunt exercitation est magna. Quis nostrud nisi laboris nostrud proident veniam magna consequat esse. Nulla sunt consequat minim incididunt. Minim laborum velit voluptate duis ea mollit adipisicing laboris eiusmod nisi ad consectetur ea officia. Incididunt nostrud cillum reprehenderit aliqua in ut occaecat fugiat magna tempor elit voluptate deserunt nisi. Cupidatat incididunt fugiat dolore nisi laboris ipsum amet. Lorem tempor nulla proident amet nisi fugiat quis proident magna reprehenderit id eiusmod est molli",
-  campos: ["unit", "year", "2011"]
-}
-  ,
-{
-  nombre: "ISOC2",
-  descripcion: "Share of person tal Duis ipsum culpa cupidatat voluptate sunt exercitation est magna. Quis nostrud nisi laboris nostrud proident veniam magna consequat esse. Nulla sunt consequat minim incididunt. Minim laborum velit voluptate duis ea mollit adipisicing laboris eiusmod nisi ad consectetur ea officia. Incididunt nostrud cillum reprehenderit aliqua in ut occaecat fugiat magna tempor elit voluptate deserunt nisi. Cupidatat incididunt fugiat dolore nisi laboris ipsum amet. Lorem tempor nulla proident amet nisi fugiat quis proident magna reprehenderit id eiusmod est molli",
-  campos: ["unit", "year", "2011"]
-}
-  , {
-  nombre: "ISOC3",
-  descripcion: "Share of person tal Duis ipsum culpa cupidatat voluptate sunt exercitation est magna. Quis nostrud nisi laboris nostrud proident veniam magna consequat esse. Nulla sunt consequat minim incididunt. Minim laborum velit voluptate duis ea mollit adipisicing laboris eiusmod nisi ad consectetur ea officia. Incididunt nostrud cillum reprehenderit aliqua in ut occaecat fugiat magna tempor elit voluptate deserunt nisi. Cupidatat incididunt fugiat dolore nisi laboris ipsum amet. Lorem tempor nulla proident amet nisi fugiat quis proident magna reprehenderit id eiusmod est molli",
-  campos: ["unit", "year", "2011"]
-}];

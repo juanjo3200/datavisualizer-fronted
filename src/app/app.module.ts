@@ -8,7 +8,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { ErrorComponent } from './components/error/error.component';
 import { HomeComponent } from './components/home/home.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EqualValidator } from './services/validator/equal-validate.directive';
 import { UserService } from './services/user/user.service';
 import { LogginGuard } from './services/guards/loggin.guard';
@@ -39,7 +39,8 @@ import { ImageGridComponent } from './components/imagegrid/imagegrid.component';
     AppRoutingModule,
     FormsModule,
     HttpModule,
-    AppMaterialModule
+    AppMaterialModule,
+    ReactiveFormsModule
   ],
   providers: [UserService, LogginGuard, ProtectLogginGuard],
   bootstrap: [AppComponent],

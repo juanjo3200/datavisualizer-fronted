@@ -1,7 +1,8 @@
-<mat-horizontal-stepper  linear >
-<mat-step  #step completed="false">
+<mat-horizontal-stepper #stepper linear>
+  <mat-step>
 
-
+    <ng-template matStepLabel>Selecciona las bases de datos</ng-template>
+    <h2 class="example-h2">Bases de datos</h2>
     <mat-form-field class="example-filter">
       <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
     </mat-form-field>
@@ -21,7 +22,14 @@
 
       <ng-container matColumnDef="campos">
         <mat-header-cell *matHeaderCellDef> Campos </mat-header-cell>
-        <mat-cell *matCellDef="let database"> {{database.campos}} </mat-cell>
+        <mat-cell *matCellDef="let database">
+          <ul>
+            <li *ngFor="let campo of database.campos">
+              {{campo.nombre}} : {{campo.tipo}}
+            </li>
+          </ul>
+        </mat-cell>
+
       </ng-container>
 
       <!-- Checkbox Column -->
@@ -42,16 +50,39 @@
 
     </mat-table>
 
-
     <div>
-      <button mat-raised-button color="primary" mat-button matStepperNext>Siguiente</button>
-
+      <button mat-raised-button color="primary" mat-button (click)="firstStepCheck(stepper)">Siguiente</button>
     </div>
+
 
   </mat-step>
   <mat-step>
+    <h2 class="example-h2">Preprocesamiento</h2>
+    <form [formGroup]="preprocesamientoForm">
+      <div formArrayName="itemRows">
+        <div *ngFor="let row of itemRows.controls; let i=index" [formGroupName]="i">
+          <h4>{{this.selection.selected[i].nombre}}</h4>
+          <span class="form-group">
+            <mat-form-field>
+              <mat-select placeholder="Pivotar" formControlName='pivot'>
+                <mat-option>No pivotar</mat-option>
+                <mat-option *ngFor="let field of classFields(this.selection.selected[i].campos)" value='{{field.nombre}}' >
+                  {{field.nombre}}</mat-option>
+              </mat-select>
+            </mat-form-field>
 
-    <ng-template matStepLabel>Fill out your address</ng-template>
+            <div *ngIf="preprocesamientoForm.controls.itemRows.controls.length > 1">
+              <mat-form-field>
+                <mat-select placeholder="Join" multiple>
+                  <mat-option value="option">Option</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </span>
+        </div>
+      </div>
+    </form>
+    {{preprocesamientoForm.value|json}}
     <div>
       <button mat-raised-button color="warn" mat-button matStepperPrevious>Atras</button>
 
