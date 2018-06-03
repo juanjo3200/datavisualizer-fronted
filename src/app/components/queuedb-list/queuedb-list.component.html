@@ -1,0 +1,41 @@
+<div *ngIf="dataSource; else templateName">
+
+
+<br>
+<mat-form-field class="example-form-field">
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+</mat-form-field>
+
+<mat-table #table [dataSource]="dataSource">
+
+
+  <ng-container matColumnDef="nombre">
+    <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+    <mat-cell *matCellDef="let database"> {{database.nombre}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="descripcion">
+    <mat-header-cell *matHeaderCellDef> Descripcion </mat-header-cell>
+    <mat-cell *matCellDef="let database"> {{database.descripcion}} </mat-cell>
+  </ng-container>
+
+  <!-- Checkbox Column -->
+  <ng-container matColumnDef="editar">
+    <mat-header-cell *matHeaderCellDef>
+      Añadir la base de datos
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <button (click)="editar(row)" mat-button color="primary">Añadir</button>
+    </mat-cell>
+  </ng-container>
+
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+</mat-table>
+</div>
+
+<ng-template #templateName>
+  <mat-spinner></mat-spinner>
+</ng-template>

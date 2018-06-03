@@ -1,0 +1,80 @@
+<div *ngIf="dataSource; else templateName">
+
+
+  <br>
+  <mat-form-field class="example-form-field">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+  </mat-form-field>
+
+  <mat-table #table [dataSource]="dataSource">
+
+
+    <ng-container matColumnDef="nombre">
+      <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+      <mat-cell *matCellDef="let viz"> {{viz.nombre}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="url">
+      <mat-header-cell *matHeaderCellDef> Url </mat-header-cell>
+      <mat-cell *matCellDef="let viz">
+        <span *ngIf="viz.url; else templateUrl">
+          <mat-icon>done</mat-icon>
+        </span>
+        <ng-template #templateUrl>
+          <mat-icon>clear</mat-icon>
+        </ng-template>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="algoritmo">
+      <mat-header-cell *matHeaderCellDef> Algoritmo de procesamiento </mat-header-cell>
+      <mat-cell *matCellDef="let viz"> {{viz.algoritmo}} </mat-cell>
+    </ng-container>
+
+
+    <ng-container matColumnDef="cluster">
+      <mat-header-cell *matHeaderCellDef> Campos clustering </mat-header-cell>
+
+      <mat-cell *matCellDef="let viz">
+        <ul>
+          <li *ngFor="let cluster of viz.clusters">
+            <pre>{{cluster.database}}: {{cluster.cluster}} </pre>
+          </li>
+        </ul>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="databases">
+      <mat-header-cell *matHeaderCellDef> Bases de datos </mat-header-cell>
+      <mat-cell *matCellDef="let viz">
+        <ul>
+          <li *ngFor="let databases of viz.databases">
+            {{databases.nombre}}
+          </li>
+        </ul>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="editar">
+      <mat-header-cell *matHeaderCellDef>
+        Añadir la base de datos
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <button (click)="editar(row)" mat-button color="primary">Editar</button>
+        <button mat-icon-button (click)='delete(row)'>
+          <mat-icon aria-label="Delete">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+  </mat-table>
+</div>
+
+<ng-template #templateName>
+  <mat-spinner></mat-spinner>
+</ng-template>

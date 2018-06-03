@@ -1,6 +1,6 @@
 import { Directive, forwardRef, Attribute } from '@angular/core';
 import { AbstractControl, Validator, NG_ASYNC_VALIDATORS } from '@angular/forms';
-import { UserService } from '../user/user.service';
+import { UserService } from '../api/user.service';
 
 @Directive({
     selector: '[asyncEmailValidator]',

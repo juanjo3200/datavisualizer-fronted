@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation} from '@angular/core';
-import { User } from '../models/user';
-import { UserService } from '../../services/user/user.service';
+import { User } from '../models/user.entity';
+import { UserService } from '../../services/api/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef , MAT_DIALOG_DATA } from '@angular/material';
 import { DialogContentComponent } from '../dialogContent/dialogContent.component';

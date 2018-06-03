@@ -1,0 +1,64 @@
+<div *ngIf="dataSource; else templateName">
+  <ng-template matStepLabel>Selecciona las bases de datos</ng-template>
+  <h2 class="example-h2">Bases de datos</h2>
+  <mat-form-field class="example-form-field">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+  </mat-form-field>
+
+  <mat-table #table [dataSource]="dataSource">
+
+
+    <ng-container matColumnDef="nombre">
+      <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+      <mat-cell *matCellDef="let database"> {{database.nombre}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="descripcion">
+      <mat-header-cell *matHeaderCellDef> Descripcion </mat-header-cell>
+      <mat-cell *matCellDef="let database"> {{database.descripcion}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="campos">
+      <mat-header-cell *matHeaderCellDef> Campos </mat-header-cell>
+      <mat-cell *matCellDef="let database">
+        <ul>
+          <li *ngFor="let campo of database.campos">
+            {{campo.nombre}} : {{campo.tipo}}
+          </li>
+        </ul>
+      </mat-cell>
+
+    </ng-container>
+
+    <!-- Checkbox Column -->
+    <ng-container *ngIf='isAdmin()' matColumnDef="borrar">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+        <button mat-icon-button (click)='deleteSelected()'>
+          <mat-icon aria-label="Delete">delete</mat-icon>
+        </button>
+
+
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+  </mat-table>
+
+  <button mat-fab class="app-fab" [routerLink]="['/home/queueDB']">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+<ng-template #templateName>
+  <mat-spinner></mat-spinner>
+</ng-template>
+

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/user/user.service';
+import { UserService } from '../../services/api/user.service';
 import { EmailValidator, Validators } from '@angular/forms';
-import { User } from '../models/user';
+import { User } from '../models/user.entity';
 import { MatDialog } from '@angular/material';
 import { DialogContentComponent } from '../dialogContent/dialogContent.component';
 @Component({

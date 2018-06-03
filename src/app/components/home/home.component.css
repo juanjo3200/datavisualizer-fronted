@@ -1,8 +1,6 @@
 
 .example-sidenav {
-  display: flex;
-  justify-content: center;
-  position: fixed;
+  flex: 1;
 
 }
 
@@ -10,5 +8,15 @@
   position: fixed !important;
   bottom: 20px;
   right: 20px;
+}
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 

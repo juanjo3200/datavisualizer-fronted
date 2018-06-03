@@ -11,7 +11,7 @@ body {
 }
 
 .app-sidenav {
-  min-width: 200px;
+  flex: 1;
 }
 
 .app-content mat-checkbox {

@@ -1,42 +1,60 @@
-<mat-toolbar color="primary">
-  <button mat-button class="app-menu-button" (click)="sidenav.toggle()">
-    <i class="material-icons">menu</i>
-  </button>
-  <span class="title">Datavisualizer</span>
-</mat-toolbar>
-<mat-sidenav-container class="app-sidenav" color="primary">
+<div class="example-container">
+  <mat-toolbar color="primary">
+    <button mat-button class="app-menu-button" (click)="sidenav.toggle()">
+      <i class="material-icons">menu</i>
+    </button>
+    <span class="title">Datavisualizer</span>
+  </mat-toolbar>
+  <mat-sidenav-container class="app-sidenav" color="primary">
 
-  <mat-sidenav #sidenav mode="side" position="end" [fixedInViewport]='true' layout="vertical" class="example-sidenav">
-    <mat-toolbar>
-      <mat-toolbar-row>
-        <a [routerLink]="['/home']">
-          <span>Inicio</span>
-          <span class="app-toolbar-filler"></span>
-          <mat-icon class="example-icon">home</mat-icon>
-        </a>
-      </mat-toolbar-row>
+    <mat-sidenav #sidenav mode="side" layout="vertical" class="example-sidenav">
+      <mat-toolbar>
+        <mat-toolbar-row>
+          <a [routerLink]="['/home/imagegrid']">
+            <span>Visualizaciones</span>
+            <span class="app-toolbar-filler"></span>
+            <mat-icon class="example-icon">image</mat-icon>
+          </a>
+        </mat-toolbar-row>
 
-      <mat-toolbar-row>
-        <a [routerLink]="['/home/userdata']">
-          <span>Datos del usuario</span>
-          <span class="app-toolbar-filler"></span>
-          <mat-icon class="example-icon">account_circle</mat-icon>
-        </a>
-      </mat-toolbar-row>
+        <mat-toolbar-row>
+          <a [routerLink]="['/home/userdata']">
+            <span>Datos del usuario</span>
+            <span class="app-toolbar-filler"></span>
+            <mat-icon class="example-icon">account_circle</mat-icon>
+          </a>
+        </mat-toolbar-row>
 
-      <mat-toolbar-row>
-        <button mat-raised-button color="warn" class="app-sidebar-button" (click)="logout()">
-          <mat-icon class="example-icon">power_settings_new</mat-icon>
-          Salir
-        </button>
-      </mat-toolbar-row>
+        <mat-toolbar-row>
+          <a [routerLink]="['/home/databases']">
+            <span>Bases de datos</span>
+            <span class="app-toolbar-filler"></span>
+            <mat-icon class="example-icon">archive</mat-icon>
+          </a>
+        </mat-toolbar-row>
+
+        <mat-toolbar-row *ngIf='isAdmin()'>
+          <a [routerLink]="['/home/adminpanel']">
+            <span>Panel de administración</span>
+            <span class="app-toolbar-filler"></span>
+            <mat-icon class="example-icon">settings</mat-icon>
+          </a>
+        </mat-toolbar-row>
 
 
-    </mat-toolbar>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <router-outlet></router-outlet>
+        <mat-toolbar-row>
+          <button mat-raised-button color="warn" class="app-sidebar-button" (click)="logout()">
+            <mat-icon class="example-icon">power_settings_new</mat-icon>
+            Salir
+          </button>
+        </mat-toolbar-row>
 
-  </mat-sidenav-content>
 
-</mat-sidenav-container>
+      </mat-toolbar>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
+</div>

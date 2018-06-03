@@ -1,55 +1,61 @@
-<mat-horizontal-stepper #stepper linear>
+<h1 class="example-h2">Añadir visualización</h1>
+<mat-vertical-stepper #stepper linear>
   <mat-step>
-
     <ng-template matStepLabel>Selecciona las bases de datos</ng-template>
     <h2 class="example-h2">Bases de datos</h2>
-    <mat-form-field class="example-filter">
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
-    </mat-form-field>
-
-    <mat-table #table [dataSource]="dataSource">
+    <div *ngIf="dataSource; else templateName">
 
 
-      <ng-container matColumnDef="nombre">
-        <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
-        <mat-cell *matCellDef="let database"> {{database.nombre}} </mat-cell>
-      </ng-container>
+      <mat-form-field class="example-form-field">
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+      </mat-form-field>
 
-      <ng-container matColumnDef="descripcion">
-        <mat-header-cell *matHeaderCellDef> Descripcion </mat-header-cell>
-        <mat-cell *matCellDef="let database"> {{database.descripcion}} </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="campos">
-        <mat-header-cell *matHeaderCellDef> Campos </mat-header-cell>
-        <mat-cell *matCellDef="let database">
-          <ul>
-            <li *ngFor="let campo of database.campos">
-              {{campo.nombre}} : {{campo.tipo}}
-            </li>
-          </ul>
-        </mat-cell>
-
-      </ng-container>
-
-      <!-- Checkbox Column -->
-      <ng-container matColumnDef="select">
-        <mat-header-cell *matHeaderCellDef>
-          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
-          </mat-checkbox>
-        </mat-header-cell>
-        <mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
-          </mat-checkbox>
-        </mat-cell>
-      </ng-container>
+      <mat-table #table [dataSource]="dataSource">
 
 
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        <ng-container matColumnDef="nombre">
+          <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+          <mat-cell *matCellDef="let database"> {{database.nombre}} </mat-cell>
+        </ng-container>
 
-    </mat-table>
+        <ng-container matColumnDef="descripcion">
+          <mat-header-cell *matHeaderCellDef> Descripcion </mat-header-cell>
+          <mat-cell *matCellDef="let database"> {{database.descripcion}} </mat-cell>
+        </ng-container>
 
+        <ng-container matColumnDef="campos">
+          <mat-header-cell *matHeaderCellDef> Campos </mat-header-cell>
+          <mat-cell *matCellDef="let database">
+            <ul>
+              <li *ngFor="let campo of database.campos">
+                {{campo.nombre}} : {{campo.tipo}}
+              </li>
+            </ul>
+          </mat-cell>
+
+        </ng-container>
+
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </mat-cell>
+        </ng-container>
+
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+      </mat-table>
+    </div>
+    <ng-template #templateName>
+      <mat-spinner></mat-spinner>
+    </ng-template>
     <div>
       <button mat-raised-button color="primary" mat-button (click)="firstStepCheck(stepper)">Siguiente</button>
     </div>
@@ -57,24 +63,20 @@
 
   </mat-step>
   <mat-step>
+    <ng-template matStepLabel>Seleciona parametros de preprocesamiento</ng-template>
     <h2 class="example-h2">Preprocesamiento</h2>
     <form [formGroup]="preprocesamientoForm">
       <div formArrayName="itemRows">
         <div *ngFor="let row of itemRows.controls; let i=index" [formGroupName]="i">
           <h4>{{this.selection.selected[i].nombre}}</h4>
           <span class="form-group">
-            <mat-form-field>
-              <mat-select placeholder="Pivotar" formControlName='pivot'>
-                <mat-option>No pivotar</mat-option>
-                <mat-option *ngFor="let field of classFields(this.selection.selected[i].campos)" value='{{field.nombre}}' >
-                  {{field.nombre}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-
+            <mat-checkbox class="example-form-field" formControlName="nulos">Eliminar filas con valores nulos </mat-checkbox>
             <div *ngIf="preprocesamientoForm.controls.itemRows.controls.length > 1">
-              <mat-form-field>
-                <mat-select placeholder="Join" multiple>
-                  <mat-option value="option">Option</mat-option>
+              <mat-form-field class="example-form-field">
+                <mat-select placeholder="Campos union entre bases de datos" formControlName='join' multiple>
+                  <mat-option *ngFor="let field of this.selection.selected[i].campos" value='{{field.nombre}}'>
+                    {{field.nombre}}
+                  </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
@@ -82,21 +84,61 @@
         </div>
       </div>
     </form>
-    {{preprocesamientoForm.value|json}}
     <div>
-      <button mat-raised-button color="warn" mat-button matStepperPrevious>Atras</button>
-
-      <button mat-raised-button color="primary" mat-button matStepperNext>Siguiente</button>
-
+      <button mat-raised-button color="warn" (click)='backSecondStep()' mat-button matStepperPrevious>Atras</button>
+      <button mat-raised-button color="primary" mat-button (click)="secondStepCheck(stepper)">Siguiente</button>
     </div>
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>Done</ng-template>
-    You are now done.
+    <ng-template matStepLabel>Parametros de Clustering</ng-template>
+    <form [formGroup]="algoritmoForm">
+      <h2 class="example-h2">Parametros de Clustering</h2>
+      <br>
+      <h3 class="example-h2">Algoritmo de Clustering</h3>
+      <br>
+      <mat-radio-group formControlName="algoritmo">
+        <mat-radio-button *ngFor="let algoritmoCluster of algoritmosClusters" [value]="algoritmoCluster">
+          {{algoritmoCluster}}
+        </mat-radio-button>
+      </mat-radio-group>
+      <br>
+      <h3 class="example-h2">Algoritmo testing</h3>
+      <mat-form-field class="example-form-field">
+        <mat-select placeholder="Algoritmos para testear los clusters" formControlName="algoritmosTest" multiple>
+          <mat-option *ngFor="let algoritmoTest of algoritmosTest" [value]="algoritmoTest">{{algoritmoTest}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <h3 class="example-h2">Campos por los que agrupar/generar clusters</h3>
+      <div formArrayName="claseCluster">
+        <div *ngFor="let row of claseCluster.controls; let i=index" [formGroupName]="i">
+          <h4>{{this.selection.selected[i].nombre}}</h4>
+          <span class="form-group">
+            <mat-form-field class="example-form-field">
+              <mat-select placeholder="Campos union entre bases de datos" formControlName='cluster' multiple>
+                <mat-option *ngFor="let field of numberField(this.selection.selected[i].campos)" value='{{field.nombre}}'>
+                  {{field.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </span>
+        </div>
+      </div>
+      <h3 class="example-h2">Nombre de la visualización</h3>
+      <br>
+      <mat-form-field appearance="outline" class="example-form-field">
+        <input matInput formControlName="nombre" placeholder="Nombre visualización">
+      </mat-form-field>
+      <br>
+      <mat-divider></mat-divider>
+    </form>
+    <br>
+    <mat-divider></mat-divider>
+
+
     <div>
-      <button mat-raised-button color="warn" mat-button matStepperPrevious>Atras</button>
-
-
+      <br>
+      <button mat-raised-button color="warn" mat-button (click)='backThirdStep' matStepperPrevious>Atras</button>
+      <button mat-raised-button color="primary" mat-button (click)='finalizar()'>Finalizar</button>
     </div>
   </mat-step>
-</mat-horizontal-stepper>
+</mat-vertical-stepper>

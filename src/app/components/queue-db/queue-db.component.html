@@ -1,0 +1,24 @@
+<mat-card>
+  <mat-card-content>
+
+    <form class="example-container" #queueDBForm="ngForm" (ngSubmit)="onSubmit(queueDBForm)" accept-charset="UTF-8" role="form">
+      <h2 class="example-h2">Petición para añadir base de datos</h2>
+      <mat-form-field>
+        <input matInput class="form-control" name="nombre" placeholder="Nombre" type="text" #name="ngModel" [(ngModel)]="queueDB.nombre"
+          minlength="3" required>
+        <mat-hint align="end">
+          {{queueDB.nombre.length}} / min 3
+        </mat-hint>
+      </mat-form-field>
+      <mat-form-field>
+        <textarea matInput placeholder="Descripción de la base de datos" name='descripcion' #descripcion="ngModel" [(ngModel)]="queueDB.descripcion"></textarea>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="url" placeholder="Url de la base de datos" name="url" #url="ngModel" [(ngModel)]="queueDB.url">
+        <mat-icon matSuffix>link</mat-icon>
+      </mat-form-field>
+      <button type='submit' class="app-button" mat-raised-button color="primary" [disabled]="!queueDBForm.form.valid">Crear Petición BD</button>
+    </form>
+
+  </mat-card-content>
+</mat-card>

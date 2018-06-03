@@ -1,0 +1,65 @@
+<div *ngIf="vizInfo; else templateName">
+
+
+  <mat-card>
+    <mat-card-content>
+
+      <form class="example-container" #vizqueueForm="ngForm" (ngSubmit)="onSubmit(vizqueueForm)" accept-charset="UTF-8" role="form">
+        <h2 class="example-h2">Editar visualización url o thumbnail</h2>
+        <mat-form-field>
+          <input matInput class="form-control" name="nombre" placeholder="Nombre" type="text" #name="ngModel" [(ngModel)]="viz.nombre"
+            minlength="3" required>
+          <mat-hint align="end">
+            {{viz.nombre.length}} / min 3
+          </mat-hint>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="url" placeholder="Url de inscrustación de Tableau" name="url" #url="ngModel" [(ngModel)]="viz.url">
+          <mat-icon matSuffix>link</mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="url" placeholder="Url del thumbnail" name="img" #img="ngModel" [(ngModel)]="viz.img">
+          <mat-icon matSuffix>image</mat-icon>
+        </mat-form-field>
+        <h3 class="example-h2">Información de la Viz</h3>
+        <ul style="list-style-type:none">
+          <li>Algoritmo: {{vizInfo.algoritmo}}</li>
+          <li>Bases de datos:
+            <ul>
+              <li *ngFor="let databases of viz.databases">
+                {{databases.nombre}}
+              </li>
+            </ul>
+          </li>
+          <li> Campos Clustering
+            <ul>
+              <li *ngFor="let cluster of vizInfo.clusters">
+                <pre>{{cluster.database}}: {{cluster.cluster}} </pre>
+              </li>
+            </ul>
+          </li>
+          <li>Algoritmos para testear los clusters:
+            <ul>
+              <li *ngFor="let test of vizInfo.algoritmosTest">
+                {{test}}
+              </li>
+            </ul>
+          </li>
+          <li>Preprocesamiento:
+            <ul style="list-style-type:square">
+              <li *ngFor="let preprocesamiento of vizInfo.preprocesamiento">
+                <pre>{{preprocesamiento | json}}</pre>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <button type='submit' class="app-button" mat-raised-button color="primary" [disabled]="!vizqueueForm.form.valid">Editar visualización</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+<ng-template #templateName>
+  <mat-spinner></mat-spinner>
+</ng-template>

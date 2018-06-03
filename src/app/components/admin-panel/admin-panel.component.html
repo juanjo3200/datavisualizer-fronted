@@ -1,0 +1,18 @@
+<mat-card>
+  <mat-card-content>
+    <h2 class="example-h2">Elementos pendientes de añadir por el administrador</h2>
+    <nav mat-tab-nav-bar>
+      <a mat-tab-link [routerLink]="['queuedblist']">
+
+        Bases de datos pendientes
+      </a>
+      <a mat-tab-link [routerLink]="['vizqueuelist']">
+
+        Visualizaciones
+      </a>
+
+    </nav>
+    <router-outlet></router-outlet>
+
+  </mat-card-content>
+</mat-card>
