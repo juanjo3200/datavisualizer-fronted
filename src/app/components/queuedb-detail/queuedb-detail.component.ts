@@ -52,7 +52,7 @@ export class QueuedbDetailComponent implements OnInit {
         const resultDelete = await this.databaseService.deleteQueueDB(this.queueDB);
         resultDelete.subscribe(responseDelete =>{
           this.openDialog("Petición de base de datos añadida correctamente", "green", "done");
-          this.router.navigate(['home/adminpanel/queuedblist']);
+          this.router.navigate(['visualizer/home/adminpanel/queuedblist']);
         });
       },
       error => {

@@ -13,7 +13,7 @@ export class LogginGuard implements CanActivate {
        if (this._userService.getIdentity() != null) {
             return true;
         }else {
-            this._router.navigate(['/login']);
+            this._router.navigate(['/visualizer/login']);
             return false;
         }
     }

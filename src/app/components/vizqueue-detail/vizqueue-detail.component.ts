@@ -49,7 +49,7 @@ export class VizqueueDetailComponent implements OnInit {
     result.subscribe(
       async response => {
         this.openDialog("Petición de base de datos añadida correctamente", "green", "done");
-        this.router.navigate(['home/adminpanel/vizqueuelist']);
+        this.router.navigate(['visualizer/home/adminpanel/vizqueuelist']);
       },
       error => {
         this.openDialog("Error al modificar los datos", "red", "error");

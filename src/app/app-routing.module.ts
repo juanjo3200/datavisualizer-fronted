@@ -9,7 +9,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { UserDataComponent } from './components/user-data/user-data.component';
 import { StepperComponent } from './components/stepper/stepper.component';
 import { ImageGridComponent } from './components/imagegrid/imagegrid.component';
-import { DatabasesComponent} from './components/databases/databases.component';
+import { DatabasesComponent } from './components/databases/databases.component';
 import { LogginGuard } from './services/guards/loggin.guard';
 import { ProtectLogginGuard } from './services/guards/protectLoggin.guard';
 import { QueueDbComponent } from './components/queue-db/queue-db.component';
@@ -21,31 +21,35 @@ import { VizqueueListComponent } from './components/vizqueue-list/vizqueue-list.
 import { VizqueueDetailComponent } from './components/vizqueue-detail/vizqueue-detail.component';
 import { VizViewComponent } from './components/viz-view/viz-view.component';
 
-const routes : Routes = [
-
-  { path: 'login', component: LoginComponent, canActivate: [ProtectLogginGuard]},
+const routes: Routes = [
   {
-    path: 'home', component: HomeComponent,
-    canActivate: [LogginGuard], children: [
-      { path: '', redirectTo: 'imagegrid', pathMatch: 'full' },
-      { path: 'imagegrid', component : ImageGridComponent},
-      { path: 'vizView/:id', component: VizViewComponent },
-      { path: 'userdata', component: UserDataComponent },
-      { path: 'stepper', component: StepperComponent },
-      { path: 'databases', component: DatabasesComponent },
-      { path: 'queueDB', component: QueueDbComponent },
-      { path: 'adminpanel', canActivate: [AdminGuard] , component: AdminPanelComponent, children:
-      [
-      { path: '', redirectTo: 'queuedblist', pathMatch: 'full' },
-      { path: 'queuedblist', component: QueuedbListComponent },
-      { path: 'queuedbdetail/:id', component: QueuedbDetailComponent },
-      { path: 'vizqueuelist', component: VizqueueListComponent },
-      { path: 'vizqueuedetail/:id', component: VizqueueDetailComponent }] }]
-  },
-  { path: 'register', component: RegisterComponent, canActivate: [ProtectLogginGuard] },
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', component: ErrorComponent}
-
+    path: 'visualizer', children: [
+      { path: 'login', component: LoginComponent, canActivate: [ProtectLogginGuard] },
+      {
+        path: 'home', component: HomeComponent,
+        canActivate: [LogginGuard], children: [
+          { path: '', redirectTo: 'imagegrid', pathMatch: 'full' },
+          { path: 'imagegrid', component: ImageGridComponent },
+          { path: 'vizView/:id', component: VizViewComponent },
+          { path: 'userdata', component: UserDataComponent },
+          { path: 'stepper', component: StepperComponent },
+          { path: 'databases', component: DatabasesComponent },
+          { path: 'queueDB', component: QueueDbComponent },
+          {
+            path: 'adminpanel', canActivate: [AdminGuard], component: AdminPanelComponent, children:
+              [
+                { path: '', redirectTo: 'queuedblist', pathMatch: 'full' },
+                { path: 'queuedblist', component: QueuedbListComponent },
+                { path: 'queuedbdetail/:id', component: QueuedbDetailComponent },
+                { path: 'vizqueuelist', component: VizqueueListComponent },
+                { path: 'vizqueuedetail/:id', component: VizqueueDetailComponent }]
+          }]
+      },
+      { path: 'register', component: RegisterComponent, canActivate: [ProtectLogginGuard] },
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
+      { path: '**', component: ErrorComponent }
+    ]},
+  { path: '**', redirectTo: '' }
 ];
 
 

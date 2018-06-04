@@ -48,6 +48,6 @@ export class QueuedbListComponent implements OnInit {
   }
 
   editar(queueDB) {
-    this.route.navigate(['home/adminpanel/queuedbdetail/' + queueDB._id]);
+    this.route.navigate(['visualizer/home/adminpanel/queuedbdetail/' + queueDB._id]);
   }
 }

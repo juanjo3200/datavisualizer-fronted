@@ -26,7 +26,7 @@ export class ImageGridComponent implements OnInit {
     return img;
   }
   ver(viz) {
-    this.router.navigate(['home/vizView/' + viz._id]);
+    this.router.navigate(['visualizer/home/vizView/' + viz._id]);
   }
 
 }

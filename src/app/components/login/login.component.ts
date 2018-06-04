@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
             response => {
               this.token = response.token;
               this._userService.setToken(this.token);
-              this.router.navigate(['home']);
+              this.router.navigate(['visualizer/home']);
             }, error =>{
               console.log(<any>error);
             }

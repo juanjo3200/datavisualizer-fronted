@@ -209,7 +209,7 @@ export class StepperComponent implements OnInit {
 
             const vizAdded = this.vizService.addViz(viz);
             this.openDialog("Visualización añadida correctamente", "green", "done");
-            this.router.navigate(['home/imagegrid']);
+            this.router.navigate(['visualizer/home/imagegrid']);
           } else {
             this.openDialog("Selecciona al menos un algoritmo con el que testear los clusters", "red", "error");
           }

@@ -68,6 +68,6 @@ export class VizqueueListComponent implements OnInit {
   }
 
   editar(viz) {
-    this.route.navigate(['home/adminpanel/vizqueuedetail/' + viz._id]);
+    this.route.navigate(['visualizer/home/adminpanel/vizqueuedetail/' + viz._id]);
   }
 }

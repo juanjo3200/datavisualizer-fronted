@@ -11,7 +11,7 @@ export class ProtectLogginGuard implements CanActivate {
 
     canActivate() {
         if (this._userService.getIdentity() != null) {
-            this._router.navigate(['/home']);
+            this._router.navigate(['/visualizer/home']);
             return false;
         } else {
             return true;

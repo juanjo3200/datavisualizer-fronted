@@ -10,7 +10,7 @@
     <mat-sidenav #sidenav mode="side" layout="vertical" class="example-sidenav">
       <mat-toolbar>
         <mat-toolbar-row>
-          <a [routerLink]="['/home/imagegrid']">
+          <a [routerLink]="['/visualizer/home/imagegrid']">
             <span>Visualizaciones</span>
             <span class="app-toolbar-filler"></span>
             <mat-icon class="example-icon">image</mat-icon>
@@ -18,7 +18,8 @@
         </mat-toolbar-row>
 
         <mat-toolbar-row>
-          <a [routerLink]="['/home/userdata']">
+          <a [routerLink]="['/visualizer/home/userdata']">
+
             <span>Datos del usuario</span>
             <span class="app-toolbar-filler"></span>
             <mat-icon class="example-icon">account_circle</mat-icon>
@@ -26,7 +27,8 @@
         </mat-toolbar-row>
 
         <mat-toolbar-row>
-          <a [routerLink]="['/home/databases']">
+          <a [routerLink]="['/visualizer/home/databases']">
+
             <span>Bases de datos</span>
             <span class="app-toolbar-filler"></span>
             <mat-icon class="example-icon">archive</mat-icon>
@@ -34,7 +36,7 @@
         </mat-toolbar-row>
 
         <mat-toolbar-row *ngIf='isAdmin()'>
-          <a [routerLink]="['/home/adminpanel']">
+          <a [routerLink]="['/visualizer/home/adminpanel']">
             <span>Panel de administración</span>
             <span class="app-toolbar-filler"></span>
             <mat-icon class="example-icon">settings</mat-icon>

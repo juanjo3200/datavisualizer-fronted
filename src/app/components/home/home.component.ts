@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   }
   logout() {
     this._userService.logout();
-    this.router.navigate(['login']);
+    this.router.navigate(['/visualizer/login']);
   }
   isAdmin() {
     return this._userService.isAdmin();
