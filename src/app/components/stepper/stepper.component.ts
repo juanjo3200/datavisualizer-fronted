@@ -116,7 +116,7 @@ export class StepperComponent implements OnInit {
   }
 
   numberField(fields: Array<Field>) {
-    return fields.filter(field => field.tipo === 'Númerico');
+    return fields.filter(field => field.tipo === 'Numérico');
   }
 
   firstStepCheck(stepper: MatStepper) {
