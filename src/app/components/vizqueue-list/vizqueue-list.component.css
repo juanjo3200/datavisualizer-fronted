@@ -8,7 +8,7 @@
 
   mat-cell,
   .mat-header-cell {
-    overflow: visible;
+    overflow: auto;
   }
 
   .centerText {

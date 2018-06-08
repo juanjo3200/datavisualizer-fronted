@@ -13,7 +13,7 @@ import { VizService } from '../../services/api/viz.service';
 export class VizqueueListComponent implements OnInit {
 
   data: Array<any>;
-  displayedColumns = ['nombre', 'url', 'algoritmo', 'cluster', 'databases', 'editar'];
+  displayedColumns = ['nombre', 'algoritmo', 'cluster', 'databases', 'url', 'editar'];
   dataSource: MatTableDataSource<Visualization>;
   selection = new SelectionModel<Visualization>(true, []);
 

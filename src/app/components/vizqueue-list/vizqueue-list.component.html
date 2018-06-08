@@ -26,6 +26,7 @@
       </mat-cell>
     </ng-container>
 
+
     <ng-container matColumnDef="algoritmo">
       <mat-header-cell *matHeaderCellDef> Algoritmo de procesamiento </mat-header-cell>
       <mat-cell *matCellDef="let viz"> {{viz.algoritmo}} </mat-cell>
@@ -38,7 +39,7 @@
       <mat-cell *matCellDef="let viz">
         <ul>
           <li *ngFor="let cluster of viz.clusters">
-            <pre>{{cluster.database}}: {{cluster.cluster}} </pre>
+            {{cluster.database}}: {{cluster.cluster}}
           </li>
         </ul>
       </mat-cell>

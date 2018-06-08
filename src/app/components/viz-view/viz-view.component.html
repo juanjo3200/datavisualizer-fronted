@@ -1,1 +1,41 @@
-<div style='height: 100%, width: 100%;'id="tableauViz"></div>
+<div style='height: 100%, width: 100%;' id="tableauViz">
+</div>
+<div *ngIf="vizReady; else templateName">
+
+  <h3 class="example-h2">Información de la Viz</h3>
+  <ul style="list-style-type:none">
+    <li>Algoritmo: {{vizInfo.algoritmo}}</li>
+    <li>Bases de datos:
+      <ul>
+        <li *ngFor="let databases of viz.databases">
+          {{databases.nombre}}
+        </li>
+      </ul>
+    </li>
+    <li> Campos Clustering
+      <ul>
+        <li *ngFor="let cluster of vizInfo.clusters">
+          <pre>{{cluster.database}}: {{cluster.cluster}} </pre>
+        </li>
+      </ul>
+    </li>
+    <li>Algoritmos para testear los clusters:
+      <ul>
+        <li *ngFor="let test of vizInfo.algoritmosTest">
+          {{test}}
+        </li>
+      </ul>
+    </li>
+    <li>Preprocesamiento:
+      <ul style="list-style-type:square">
+        <li *ngFor="let preprocesamiento of vizInfo.preprocesamiento">
+          <pre>{{preprocesamiento | json}}</pre>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<ng-template #templateName>
+  <mat-spinner></mat-spinner>
+</ng-template>

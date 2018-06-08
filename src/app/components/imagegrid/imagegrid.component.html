@@ -2,16 +2,22 @@
 
   <h1 *ngIf="!vizs; else noViz" class=' centerText '> No hay Visualizaciones</h1>
 
+
+
   <ng-template #noViz>
-    <mat-grid-list cols="4" rowHeight="250px">
+    <mat-grid-list cols="4" rowHeight="500px">
       <mat-grid-tile *ngFor="let viz of vizs">
-        <div class="container">
-          <img src={{thumbnail(viz.img)}} class="image" style="width:100%">
-          <div class="middle">
-            <button mat-raised-button (click)='ver(viz)' color="primary">Ver</button>
-          </div>
-          <span class=' centerTitle '>{{viz.nombre}}</span>
-        </div>
+          <mat-card class="example-card">
+            <img mat-card-image src={{thumbnail(viz.img)}} alt="VizThumbnail">
+            <mat-card-content>
+              <p>
+                {{viz.nombre}}
+              </p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-raised-button (click)='ver(viz)' color="primary">Ver</button>
+            </mat-card-actions>
+          </mat-card>
       </mat-grid-tile>
     </mat-grid-list>
   </ng-template>
